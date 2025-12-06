@@ -104,8 +104,8 @@ So the current version already follows the planned architecture:
 > CLI → Assistant Core (commands, history) →  
 >   LLM Client (mock for now) and Task Manager (JSON storage)
 
-and is ready for the next phase where the LLM will translate natural language into structured task actions.
-```
+and is ready for the next phase where the LLM will translate natural language into structured task actions.'''
+
 ## 5. How to Run (Local)
 
 From the project root:
