@@ -61,3 +61,60 @@ CLI (User)  <-->  Assistant Core  <-->  LLM Client
                          |
                          v
                   Task Manager  <-->  tasks.json
+                  
+4. Current Status (Phase 1 – Implemented)
+
+Right now, I have built the **foundation** of the personal AI assistant with a working CLI app and local task/notes features.
+
+### ✅ Implemented
+
+- **CLI Assistant**
+  - Run with `python app.py`.
+  - Text interface in the terminal (`You:` prompt).
+  - Maintains **conversation history** (system + user + assistant messages).
+
+- **Commands (Assistant Core)**
+  - `/help` – show available commands.
+  - `/clear` – clear conversation history and restart from the system prompt.
+  - `/note <text>` – save a note to `notes.txt`.
+  - `/notes` – list all notes.
+  - `/todo <text>` – create a simple task (stored in JSON, with an ID and status).
+  - `/todos` – list all tasks with status (⏳ pending / ✔️ done).
+  - `/done <id>` – mark a task as done.
+  - `quit` / `exit` – exit the assistant.
+
+- **Task & Notes Storage**
+  - Tasks are stored in JSON (e.g. `data/tasks.json`) via a Task Manager module.
+  - Notes are stored line-by-line in `notes.txt`.
+  - This matches the idea of a separate **storage layer** that can later be replaced with a database.
+
+- **LLM Engine Wrapper (Mock Mode)**
+  - `src/llm/openai_client.py` exposes a single function:
+    ```python
+    def ask_ai(messages) -> str:
+        ...
+    ```
+  - Currently runs in **mock mode** (no real API calls, no cost), because of OpenAI quota/billing limits.
+  - Designed so it can later call:
+    - OpenAI directly, or
+    - an `n8n.ai` endpoint provided by the training program.
+
+So the current version already follows the planned architecture:
+
+> CLI → Assistant Core (commands, history) →  
+>   LLM Client (mock for now) and Task Manager (JSON storage)
+
+and is ready for the next phase where the LLM will translate natural language into structured task actions.
+
+---
+
+5. How to Run (Local)
+
+From the project root:
+
+```bash
+# (optional) activate virtual env
+venv\Scripts\activate  # on Windows
+
+# run the assistant
+python app.py
