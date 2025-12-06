@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual env
+venv/
+.env
+
+# IDE
+.vscode/
+
+# Data files created by the app
+notes.txt
+todos.json
+logs/
+
+# OS junk
+.DS_Store
+Thumbs.db
