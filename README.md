@@ -61,8 +61,8 @@ CLI (User)  <-->  Assistant Core  <-->  LLM Client
                          |
                          v
                   Task Manager  <-->  tasks.json
-                  
-4. Current Status (Phase 1 – Implemented)
+```
+## 4. Current Status (Phase 1 – Implemented)
 
 Right now, I have built the **foundation** of the personal AI assistant with a working CLI app and local task/notes features.
 
@@ -105,10 +105,8 @@ So the current version already follows the planned architecture:
 >   LLM Client (mock for now) and Task Manager (JSON storage)
 
 and is ready for the next phase where the LLM will translate natural language into structured task actions.
-
----
-
-5. How to Run (Local)
+```
+## 5. How to Run (Local)
 
 From the project root:
 
