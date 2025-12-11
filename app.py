@@ -1,12 +1,12 @@
 # app.py
 import os
 import json
+from typing import Dict, Any
 from dotenv import load_dotenv
 
 # Load environment variables from .env (OPENAI_API_KEY, USE_REAL_API, etc.)
 load_dotenv()
-
-from src.llm.openai_client import ask_ai
+from src.llm.openai_client import ask_ai, ask_ai_action
 
 
 SYSTEM_PROMPT = (
@@ -157,6 +157,19 @@ def mark_todo_done(index_str: str):
     save_todos(todos)
     print(f"Assistant: Marked todo #{idx} as done ✔️ ({todos[idx - 1]['text']})\n")
 
+def handle_ai_action(action: Dict[str, Any]) -> str:
+    """
+    Very simple handler for the action dict.
+    Right now it just returns the reply and prints debug info.
+    """
+    act = action.get("action")
+    reply = action.get("reply", "")
+
+    print("[debug] AI action:", act)
+
+    # Later we'll plug in real logic for tasks/notes.
+    return reply
+
 
 # ---------- Main loop ----------
 
@@ -206,14 +219,18 @@ def main():
                     mark_todo_done(parts[1])
             else:
                 print(f"Assistant: Unknown command '{user_input}'. Type /help for options.\n")
-            # Skip sending this to the model/mock
+
+            # Skip sending this to the model/action handler
             continue
+
+        # ---------- Normal text → AI action flow ----------
 
         # 1️⃣ Add the user message to the history
         messages.append({"role": "user", "content": user_input})
 
-        # 2️⃣ Get assistant reply using the FULL history
-        reply = ask_ai(messages)
+        # 2️⃣ Get action-style reply from the AI
+        action = ask_ai_action(messages)
+        reply = handle_ai_action(action)
 
         # 3️⃣ Show reply in the CLI
         print("Assistant:", reply)
@@ -221,7 +238,6 @@ def main():
 
         # 4️⃣ Add assistant reply back into the history
         messages.append({"role": "assistant", "content": reply})
-
 
 if __name__ == "__main__":
     main()
