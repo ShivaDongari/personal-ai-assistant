@@ -6,7 +6,8 @@ from dotenv import load_dotenv
 
 # Load environment variables from .env (OPENAI_API_KEY, USE_REAL_API, etc.)
 load_dotenv()
-from src.llm.openai_client import ask_ai, ask_ai_action
+from src.llm.openai_client import ask_ai_action
+
 
 
 SYSTEM_PROMPT = (
@@ -157,6 +158,10 @@ def mark_todo_done(index_str: str):
     save_todos(todos)
     print(f"Assistant: Marked todo #{idx} as done ✔️ ({todos[idx - 1]['text']})\n")
 
+from typing import Dict, Any
+from src.llm.openai_client import ask_ai_action  # ask_ai is optional now
+
+
 def handle_ai_action(action: Dict[str, Any]) -> str:
     """
     Very simple handler for the action dict.
@@ -171,17 +176,22 @@ def handle_ai_action(action: Dict[str, Any]) -> str:
     return reply
 
 
+
 # ---------- Main loop ----------
 
-def main():
-    print("🧠 Personal AI Assistant (type 'quit' to exit)")
+def main() -> None:
+    print("🧠 Personal AI Assistant (type 'quit' to exit')")
     print("Type /help to see available commands.\n")
 
-    # Conversation history: system + future user/assistant messages
+    # Start the conversation with initial system/user messages
     messages = build_initial_messages()
 
     while True:
         user_input = input("You: ").strip()
+
+        # Ignore empty input
+        if not user_input:
+            continue
 
         # Handle exit (not a slash command, just plain words)
         if user_input.lower() in {"quit", "exit"}:
@@ -238,6 +248,5 @@ def main():
 
         # 4️⃣ Add assistant reply back into the history
         messages.append({"role": "assistant", "content": reply})
-
 if __name__ == "__main__":
     main()
