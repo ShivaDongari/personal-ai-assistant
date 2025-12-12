@@ -88,7 +88,7 @@ Right now, I have built the **foundation** of the personal AI assistant with a w
   - Notes are stored line-by-line in `notes.txt`.
   - This matches the idea of a separate **storage layer** that can later be replaced with a database.
 
-### LLM Engine Wrapper (Local LLM via Ollama)
+## LLM Engine Wrapper (Local LLM via Ollama)
 
 - `src/llm/openai_client.py` now exposes:
 
