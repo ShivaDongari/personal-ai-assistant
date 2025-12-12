@@ -88,11 +88,14 @@ Right now, I have built the **foundation** of the personal AI assistant with a w
   - Notes are stored line-by-line in `notes.txt`.
   - This matches the idea of a separate **storage layer** that can later be replaced with a database.
 
-- **LLM Engine Wrapper (Mock Mode)**
-  - `src/llm/openai_client.py` exposes a single function:
-    ```python
-    def ask_ai(messages) -> str:
-        ...
+### LLM Engine Wrapper (Local LLM via Ollama)
+
+- `src/llm/openai_client.py` now exposes:
+
+  ```python
+  def ask_ai_action(messages) -> Dict[str, Any]:
+      ...
+
     ```
   - Currently runs in **mock mode** (no real API calls, no cost), because of OpenAI quota/billing limits.
   - Designed so it can later call:
